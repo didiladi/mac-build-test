@@ -41,3 +41,5 @@ jobs:
 
       - name: Integration Test
         run: make integration-test
+        env:
+          ENV_VAR: ${{ secrets.ENV_VAR }}
