@@ -30,8 +30,14 @@ jobs:
               dep ensure
           fi
 
-      - name: Build
-        run: go build -v ./...
+      - name: Code Style
+        run: sh ./tools/check-format.sh
 
-      - name: Test
-        run: go test -v -tags=unit ./...
+      - name: Build
+        run: make build
+
+      - name: Unit Test
+        run: make test
+
+      - name: Integration Test
+        run: make integration-test
