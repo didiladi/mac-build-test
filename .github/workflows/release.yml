@@ -29,11 +29,13 @@ jobs:
           xgo_version: latest
           go_version: ${{ matrix.go_version }}
           dest: build
-          prefix: autocannon-go
+          prefix: mac-build-test
           targets: windows/386,windows/amd64,linux/386,linux/amd64,darwin/386,darwin/amd64
           v: true
           x: false
           ldflags: -s -w
+
+      # TODO check if version in code matches
 
       - name: Create Release
         uses: actions/create-release@v1.0.0
