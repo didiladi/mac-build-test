@@ -28,7 +28,7 @@ jobs:
         uses: crazy-max/ghaction-xgo@v1
         with:
           xgo_version: latest
-          go_version: ^1.13 # TODO
+          go_version: 1.13 # TODO
           dest: build
           prefix: mac-build-test
           targets: windows/386,windows/amd64,linux/386,linux/amd64,darwin/386,darwin/amd64
