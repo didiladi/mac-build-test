@@ -22,7 +22,7 @@ jobs:
 
       - name: Check Version
         run: |
-          CODE_VERSION=`grep "const Version" cmd/self-monitoring/version.go | awk -F"[\"\"]" '{print $2}'`
+          CODE_VERSION=`grep "const Version" cmd/mac-build-test/version.go | awk -F"[\"\"]" '{print $2}'`
           TAG_VERSION_WITH_PREFIX=${{ github.ref }}
           [ $CODE_VERSION = ${TAG_VERSION_WITH_PREFIX:2} ]; exit $?
       - name: Build
