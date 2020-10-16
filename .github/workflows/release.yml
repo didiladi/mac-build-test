@@ -14,7 +14,7 @@ jobs:
       - name: Set up Go 1.x
         uses: actions/setup-go@v2
         with:
-          go-version: ^1.13 # TODO
+          go-version: ^1.13
         id: go
 
       - name: Check out code into the Go module directory
@@ -28,7 +28,6 @@ jobs:
       - name: Build
         run: make build
 
-      # runs 'xgo --pkg cmd/mac-build-test github.com/didiladi/mac-build-test'
       - name: Build with xgo
         uses: crazy-max/ghaction-xgo@v1
         with:
@@ -41,8 +40,6 @@ jobs:
           x: false
           pkg: cmd/mac-build-test
           ldflags: -s -w
-
-      # TODO check if version in code matches
 
       - name: Create Release
         uses: actions/create-release@v1.0.0
@@ -60,5 +57,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           assets_path: ./build
