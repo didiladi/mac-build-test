@@ -24,7 +24,7 @@ jobs:
         run: |
           CODE_VERSION=`grep "const Version" cmd/mac-build-test/version.go | awk -F"[\"\"]" '{print $2}'`
           TAG_VERSION_WITH_PREFIX=${{ github.ref }}
-          [ $CODE_VERSION = ${TAG_VERSION_WITH_PREFIX:12} ]; exit $?
+          [ $CODE_VERSION = ${TAG_VERSION_WITH_PREFIX:12} ];
       - name: Build
         run: make build
 
