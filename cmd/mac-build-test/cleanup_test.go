@@ -10,6 +10,6 @@ import (
 )
 
 func TestCleanupAlwaysSucceeds(t *testing.T) {
-	fmt.Println("Cleanup")
+	fmt.Println("Super Cleanup")
 	assert.Check(t, true, "Always succeeds")
 }
