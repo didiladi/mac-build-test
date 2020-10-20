@@ -7,7 +7,7 @@ on:
 jobs:
   build:
     name: Integration Test
-    if: github.event.label.name == run-integration-tests
+    if: github.event.label.name == 'run-integration-tests'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
