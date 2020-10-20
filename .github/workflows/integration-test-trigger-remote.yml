@@ -1,13 +1,13 @@
-name: Integration Tests
+name: Run Remote Integration Tests
 
 on:
-  label:
-    types: [created, deleted]
+  pull_request:
+    types: [ labeled ]
 
 jobs:
   build:
-    if: github.event.label.name == 'remote-integration-tests'
-    name: Trigger Integration Tests
+    if: ${{ github.event.label.name == 'remote-integration-tests' }}
+    name: Run Remote Integration Tests
     runs-on: ubuntu-latest
     steps:
 
