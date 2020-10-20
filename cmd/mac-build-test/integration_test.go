@@ -4,6 +4,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"testing"
 
@@ -18,5 +19,6 @@ func TestIntegrationAlwaysSucceeds(t *testing.T) {
 func TestIntegrationWithEnvVar(t *testing.T) {
 	fmt.Println("Integration test with Env var")
 	envValue := os.Getenv("ENV_VAR")
+	log.Println(envValue)
 	assert.Equal(t, envValue, "42")
 }
