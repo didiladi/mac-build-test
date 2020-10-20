@@ -1,0 +1,22 @@
+name: Integration Tests
+
+on:
+  label:
+    types: [created, deleted]
+
+jobs:
+  build:
+    if: github.event.label.name == remote-integration-tests
+    name: Trigger Integration Tests
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: didiladi/mac-build-test-internal
+          event-type: integration-test-trigger
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+
+      # TODO poll workflow status

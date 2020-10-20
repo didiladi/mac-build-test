@@ -1,0 +1,43 @@
+name: Integration Test
+
+on:
+  label:
+    types: [created, deleted]
+
+jobs:
+  build:
+    name: Integration Test
+    if: github.event.label.name == run-integration-tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.13
+        id: go
+
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.client_payload.ref }}
+
+      - name: Build
+        run: make build
+
+      - name: Unit Test
+        run: make test
+
+      - name: Integration Test
+        run: make integration-test
+        env:
+          ENV_VAR: ${{ secrets.ENV_VAR }}
+
+      - name: Upload Log Files
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs
+          path: .logs/*.log
