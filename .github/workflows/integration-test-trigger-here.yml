@@ -48,22 +48,15 @@ jobs:
           git config user.email github-actions@github.com
           git add .
           git commit -m "Copy Changes to Upstream Repo"
-          git push origin $BRANCH_NAME
-
-      - name: Check Out Upstream Repo
-        uses: actions/checkout@v2
-        with:
-          repository: didiladi/mac-build-test
-          ref: $BRANCH_NAME
 
       - name: Build
-        run: make build
+        run: cd upstream/ && make build
 
       - name: Unit Test
-        run: make test
+        run: cd upstream/ && make test
 
       - name: Integration Test
-        run: make integration-test
+        run: cd upstream/ && make integration-test
         env:
           ENV_VAR: ${{ secrets.ENV_VAR }}
 
