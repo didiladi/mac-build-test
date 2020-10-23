@@ -22,18 +22,38 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          path: fork
 
-      - name: Copy Ref to Upstream Repo
+      - name: Checkout tools repo
+        uses: actions/checkout@v2
+        with:
+          repository: https://github.com/didiladi/mac-build-test.git
+          path: upstream
+
+      - name: Copy Changes to Upstream Repo
         run: |
-          BRANCH=`git rev-parse --abbrev-ref HEAD`
-          git remote add upstream https://github.com/didiladi/mac-build-test.git
-          git push upstream HEAD:${BRANCH}
+
+          cd fork/
+          export BRANCH_NAME_IN_FORK=`git rev-parse --abbrev-ref HEAD`
+
+          cd ../upstream
+          git checkout -b $BRANCH_NAME_IN_FORK
+
+          rm -r !(.*)
+          cp -rf ../fork/* .
+
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Copy Changes to Upstream Repo"
+          git push origin $BRANCH_NAME_IN_FORK
 
       - name: Check Out Upstream Repo
         uses: actions/checkout@v2
         with:
           repository: https://github.com/didiladi/mac-build-test.git
-          ref: ${{ github.event.client_payload.ref }}
+          ref: $BRANCH_NAME_IN_FORK
 
       - name: Build
         run: make build
