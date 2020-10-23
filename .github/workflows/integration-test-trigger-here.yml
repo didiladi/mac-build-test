@@ -35,7 +35,7 @@ jobs:
         run: |
 
           cd fork/
-          export BRANCH_NAME_IN_FORK=`git rev-parse --abbrev-ref HEAD`
+          export BRANCH_NAME_IN_FORK=`git branch --show-current`
 
           cd ../upstream
           git checkout -b $BRANCH_NAME_IN_FORK
