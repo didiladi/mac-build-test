@@ -25,10 +25,9 @@ jobs:
 
       - name: Copy Ref to Upstream Repo
         run: |
-          echo ${{ github.event.client_payload.ref }}
-          echo ${{ github.event.client_payload.sha }}
+          BRANCH=`git rev-parse --abbrev-ref HEAD`
           git remote add upstream https://github.com/didiladi/mac-build-test.git
-          git push upstream HEAD:${{ github.event.client_payload.ref }}
+          git push upstream HEAD:${BRANCH}
 
       - name: Check Out Upstream Repo
         uses: actions/checkout@v2
