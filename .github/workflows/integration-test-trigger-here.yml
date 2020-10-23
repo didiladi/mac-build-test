@@ -29,6 +29,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: didiladi/mac-build-test
+          ref: master
           path: upstream
 
       - name: Copy Changes to Upstream Repo
