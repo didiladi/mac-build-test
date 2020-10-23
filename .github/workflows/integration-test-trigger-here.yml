@@ -34,7 +34,7 @@ jobs:
       - name: Copy Changes to Upstream Repo
         run: |
 
-          export BRANCH_NAME="${{ github.repository_owner }}-${{ github.event.pull_request.head.sha }}"
+          export BRANCH_NAME="${{ github.event.pull_request.head.ref }}-${{ github.event.pull_request.head.sha }}"
           echo $BRANCH_NAME
 
           cd upstream/
