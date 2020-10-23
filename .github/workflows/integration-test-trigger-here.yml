@@ -40,7 +40,7 @@ jobs:
           cd upstream/
           git checkout -b $BRANCH_NAME
 
-          rm -r !(.*)
+          rm -r *
           cp -rf ../fork/* .
 
           git config user.name github-actions
