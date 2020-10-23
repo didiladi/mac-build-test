@@ -1,4 +1,4 @@
-name: Update PR comments
+name: Trigger Tests for Forks
 
 on:
   # This number should correspond to the IGNORE_RUNS_OLDER_THAN value below.

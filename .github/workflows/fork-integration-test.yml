@@ -1,4 +1,4 @@
-name: Integration Test
+name: Integration Tests for Forks
 
 on:
   repository_dispatch:
