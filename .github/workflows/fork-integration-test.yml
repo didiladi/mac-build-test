@@ -1,0 +1,77 @@
+name: Integration Test
+
+on:
+  repository_dispatch:
+    types: [trigger-integration-tests]
+
+jobs:
+  build:
+    name: Integration Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
+        with:
+          go-version: ^1.13
+        id: go
+
+      - uses: actions/checkout@v2
+        with:
+          repository: ${{ github.event.client_payload.user }}/${{ github.event.client_payload.repo }}
+          ref: ${{ github.event.client_payload.ref }}
+
+      - name: Build
+        run: make build
+
+      - name: Unit Test
+        run: make test
+
+      - name: Integration Test
+        run: make integration-test
+        env:
+          ENV_VAR: ${{ secrets.ENV_VAR }}
+
+      - name: Upload Log Files
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs
+          path: .logs/*.log
+
+      - name: Set Success Message
+        if: ${{ always() && success() }}
+        run: |
+          export MESSAGE="🎉 Integration Tests Ran Successfully on ${{ matrix.os }} 🥳🥳"
+
+      - name: Set Failure Message
+        if: ${{ always() && !success() }}
+        run: |
+          export MESSAGE="❌ Integration Tests Failed on ${{ matrix.os }}"
+
+      - name: Post Comment
+        if: ${{ always() }}
+        run: |
+
+          PR_NUMBER=${{ github.event.client_payload.pr_number }}
+          GITHUB_API="https://api.github.com/repos/$GITHUB_REPOSITORY"
+          COMMENT_MAGIC_HEADER='<!--'" Do not edit. This comment was auto-generated>"
+
+          # Create a message body by appending a magic header
+          # and stripping any starting and ending whitespace from the original message
+
+          MESSAGE_BODY="$(jq -n \
+              --arg COMMENT_MAGIC_HEADER "$COMMENT_MAGIC_HEADER" \
+              --arg MESSAGE "$MESSAGE" \
+              '{ body: ($COMMENT_MAGIC_HEADER + "\n" + ($MESSAGE | sub( "^[\\s\\p{Cc}]+"; "" ) | sub( "[\\s\\p{Cc}]+$"; "" ))) }' \
+          )"
+
+          COMMENT_HTML_URL="$(auth_crl "$GITHUB_API/issues/$PR_NUMBER/comments" \
+              -X POST \
+              -H "Content-Type: application/json" \
+              --data "$MESSAGE_BODY" \
+            | jq -r '.html_url' )"
+          COMMENT_INFO="New comment $COMMENT_HTML_URL was created"
