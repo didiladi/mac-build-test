@@ -52,7 +52,7 @@ jobs:
       - name: Check Out Upstream Repo
         uses: actions/checkout@v2
         with:
-          repository: https://github.com/didiladi/mac-build-test.git
+          repository: didiladi/mac-build-test
           ref: $BRANCH_NAME_IN_FORK
 
       - name: Build
