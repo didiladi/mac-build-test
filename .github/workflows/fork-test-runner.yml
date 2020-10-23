@@ -15,7 +15,7 @@ jobs:
       - name: main
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          WORKFLOW_NAME: "Demo CI"
+          WORKFLOW_NAME: "Build and Test"
           # the name of the artifact whose content comment published by PR. Must have a single markdown file inside.
           MSG_ARTIFACT_NAME: "pr_message"
           # How far back to look for finished runs, in minutes.
@@ -87,6 +87,9 @@ jobs:
             echo "$PR_COUNT pull requests have been updated in the last $IGNORE_PRS_OLDER_THAN minutes"
             echo "$PULL_REQUESTS" | jq -r 'keys|.[]|" * " + .'
           fi
+
+
+
           #
           # Resolve workflow name into workflow ID
           #
@@ -164,6 +167,7 @@ jobs:
             MESSAGE="Integration Tests Ran Successfully"
             # MESSAGE="Integration Tests Failed"
             # https://api.github.com/repos/didiladi/mac-build-test/issues/8
+            # https://api.github.com/repos/didiladi/mac-build-test/issues/8/events
 
 
 
