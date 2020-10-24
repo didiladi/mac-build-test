@@ -54,6 +54,8 @@ jobs:
 
       - name: Post Comment
         if: ${{ always() }}
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         run: |
 
           PR_NUMBER=${{ github.event.client_payload.pr_number }}
@@ -61,7 +63,7 @@ jobs:
           COMMENT_MAGIC_HEADER='<!--'" Do not edit. This comment was auto-generated>"
 
           crl() {
-            curl -v --show-error --location --retry 1 "${@:2}" \
+            curl --silent --show-error --location --retry 1 "${@:2}" \
           -H "Accept: application/vnd.github.antiope-preview+json, application/vnd.github.v3+json" \
             "$1"
           }
