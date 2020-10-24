@@ -60,6 +60,10 @@ jobs:
           GITHUB_API="https://api.github.com/repos/$GITHUB_REPOSITORY"
           COMMENT_MAGIC_HEADER='<!--'" Do not edit. This comment was auto-generated>"
 
+          auth_crl() {
+           crl "$1" -H "authorization: Bearer $GITHUB_TOKEN" "${@:2}"
+          }
+
           # Create a message body by appending a magic header
           # and stripping any starting and ending whitespace from the original message
 
