@@ -42,16 +42,6 @@ jobs:
           name: logs
           path: .logs/*.log
 
-      - name: Set Success Message
-        if: ${{ always() && success() }}
-        run: |
-          export MESSAGE="🎉 Integration Tests Ran Successfully on ${{ matrix.os }} 🥳🥳"
-
-      - name: Set Failure Message
-        if: ${{ always() && !success() }}
-        run: |
-          export MESSAGE="❌ Integration Tests Failed on ${{ matrix.os }}"
-
       - name: Post Comment
         if: ${{ always() }}
         env:
@@ -61,6 +51,12 @@ jobs:
           PR_NUMBER=${{ github.event.client_payload.pr_number }}
           GITHUB_API="https://api.github.com/repos/$GITHUB_REPOSITORY"
           COMMENT_MAGIC_HEADER='<!--'" Do not edit. This comment was auto-generated>"
+
+          if [[ ${{ success() }} ]]; then
+            MESSAGE="🎉 Integration Tests Ran Successfully on ${{ matrix.os }} 🥳🥳"
+          else
+            MESSAGE="❌ Integration Tests Failed on ${{ matrix.os }}"
+          fi
 
           crl() {
             curl --silent --show-error --location --retry 1 "${@:2}" \
