@@ -61,11 +61,11 @@ jobs:
           COMMENT_MAGIC_HEADER='<!--'" Do not edit. This comment was auto-generated>"
 
           crl() {
-            curl --silent --show-error --location --retry 1 "${@:2}" \
+            curl -v --show-error --location --retry 1 "${@:2}" \
           -H "Accept: application/vnd.github.antiope-preview+json, application/vnd.github.v3+json" \
             "$1"
           }
-          
+
           auth_crl() {
            crl "$1" -H "authorization: Bearer $GITHUB_TOKEN" "${@:2}"
           }
@@ -85,3 +85,4 @@ jobs:
               --data "$MESSAGE_BODY" \
             | jq -r '.html_url' )"
           COMMENT_INFO="New comment $COMMENT_HTML_URL was created"
+          echo $COMMENT_INFO
