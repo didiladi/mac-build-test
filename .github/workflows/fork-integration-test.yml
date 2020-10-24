@@ -46,13 +46,14 @@ jobs:
         if: ${{ always() }}
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          SUCCESS: "${{ success() }}"
         run: |
 
           PR_NUMBER=${{ github.event.client_payload.pr_number }}
           GITHUB_API="https://api.github.com/repos/$GITHUB_REPOSITORY"
           COMMENT_MAGIC_HEADER='<!--'" Do not edit. This comment was auto-generated>"
 
-          if [[ ${{ success() }} ]]; then
+          if [[ $SUCCESS ]]; then
             MESSAGE="🎉 Integration Tests Ran Successfully on ${{ matrix.os }} 🥳🥳"
           else
             MESSAGE="❌ Integration Tests Failed on ${{ matrix.os }}"
