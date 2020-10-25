@@ -58,7 +58,7 @@ jobs:
         with:
           pr-id: ${{ github.event.client_payload.pr_number }}
           comment-prefix: ${{ github.event.client_payload.comment_prefix }}
-          message: $MESSAGE
+          message: ${{ env.MESSAGE }}
           token: ${{ secrets.GITHUB_TOKEN }}
           user: didiladi
           repo: ${{ github.event.client_payload.repo }}
