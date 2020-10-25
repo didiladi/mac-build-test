@@ -43,9 +43,9 @@ jobs:
           path: .logs/*.log
 
       - name: Setup Success Message
+        id: success_message
         if: ${{ always() && success() }}
-        run: |
-          export MESSAGE="🎉 Integration Tests Ran Successfully on ${{ matrix.os }} 🥳🥳"
+        run: echo "::set-output name=MESSAGE::🎉 Integration Tests Ran Successfully on ${{ matrix.os }} 🥳🥳"
 
       - name: Setup Failure Message
         if: ${{ always() && !success() }}
@@ -58,7 +58,7 @@ jobs:
         with:
           pr-id: ${{ github.event.client_payload.pr_number }}
           comment-prefix: ${{ github.event.client_payload.comment_prefix }}
-          message: ${{ env.MESSAGE }}
+          message: ${{ steps.success_message.outputs.MESSAGE }}
           token: ${{ secrets.GITHUB_TOKEN }}
           user: didiladi
           repo: ${{ github.event.client_payload.repo }}
