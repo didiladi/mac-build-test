@@ -15,3 +15,4 @@ jobs:
           label: run-integration-tests
           dispatch-event: trigger-integration-tests
           token: ${{ secrets.GITHUB_TOKEN }}
+          dispatch-token: ${{ secrets.DISPATCH_TOKEN }}
