@@ -50,9 +50,9 @@ jobs:
           STATUS: "${{ job.status }}"
         run: |
           if [[ $STATUS == "success" ]]; then
-            echo "::set-output name=MESSAGE::### ![Windows Build Failed](https://github.com/didiladi/mac-build-test/raw/master/docs/logo-windows-failed.png "Windows Build Failed") 🎉 Integration tests ran successfully on ${{ matrix.os }} 🥳"
+            echo "::set-output name=MESSAGE::### 🎉 Integration tests ran successfully on **${{ matrix.os }}** 🥳"
           else
-            echo "::set-output name=MESSAGE::### ❌ Integration tests failed on ${{ matrix.os }}"
+            echo "::set-output name=MESSAGE::### ❌ Integration tests failed on **${{ matrix.os }}**"
           fi
 
       - name: Post Comment
