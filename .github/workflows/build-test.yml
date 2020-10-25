@@ -36,3 +36,16 @@ jobs:
 
       - name: Unit Test
         run: make test
+
+      - name: Integration Test
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        run: make integration-test
+        env:
+          ENV_VAR: ${{ secrets.ENV_VAR }}
+
+      - name: Upload Log Files
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs
+          path: .logs/*.log

@@ -1,4 +1,4 @@
-name: Trigger Tests for Forks
+name: Trigger Integration Tests for Forks
 
 on:
   schedule:
