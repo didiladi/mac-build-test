@@ -42,30 +42,18 @@ jobs:
           name: logs
           path: .logs/*.log
 
-      - name: Setup Message (Ubuntu and MacOs)
-        id: message_linux
-        if: ${{ always() && matrix.os != "windows-latest" }}
+      - name: Setup Message
+        id: setup_message
+        if: ${{ always() }}
+        shell: bash
         env:
           STATUS: "${{ job.status }}"
         run: |
           if [[ $STATUS == "success" ]]; then
-            echo "::set-output name=MESSAGE::🎉 Integration tests ran successfully on ${{ matrix.os }} 🥳"
+            echo "::set-output name=MESSAGE::### 🎉 Integration tests ran successfully on ${{ matrix.os }} 🥳"
           else
-            echo "::set-output name=MESSAGE::❌ Integration tests failed on ${{ matrix.os }}"
+            echo "::set-output name=MESSAGE::### ❌ Integration tests failed on ${{ matrix.os }}"
           fi
-
-      - name: Setup Message (Windows)
-        id: message_windows
-        if: ${{ always() && matrix.os == "windows-latest" }}
-        env:
-          STATUS: "${{ job.status }}"
-        run: |
-          if($env:MESSAGE.equals("success")){
-              echo "::set-output name=MESSAGE::🎉 Integration tests ran successfully on ${{ matrix.os }} 🥳"
-          }
-          else{
-             echo "::set-output name=MESSAGE::❌ Integration tests failed on ${{ matrix.os }}"
-          }
 
       - name: Post Comment
         if: ${{ always() }}
@@ -73,7 +61,7 @@ jobs:
         with:
           pr-id: ${{ github.event.client_payload.pr_number }}
           comment-prefix: ${{ github.event.client_payload.comment_prefix }}
-          message: ${{ steps.message_linux.outputs.MESSAGE }}${{ steps.message_windows.outputs.MESSAGE }}
+          message: ${{ steps.setup_message.outputs.MESSAGE }}
           token: ${{ secrets.GITHUB_TOKEN }}
           user: didiladi
           repo: ${{ github.event.client_payload.repo }}
