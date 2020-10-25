@@ -12,6 +12,7 @@ import (
 
 func TestIntegrationAlwaysSucceeds(t *testing.T) {
 	fmt.Println("Integration test")
+	// TEst
 	assert.Check(t, true, "Always succeeds")
 }
 
