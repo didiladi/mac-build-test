@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: main
-        uses: didiladi/trigger-workflow-for-pr@main
+        uses: didiladi/trigger-workflow-for-pr-action@main
         with:
           label: run-integration-tests
           dispatch-event: trigger-integration-tests

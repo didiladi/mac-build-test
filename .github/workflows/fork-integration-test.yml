@@ -54,7 +54,7 @@ jobs:
 
       - name: Post Comment
         if: ${{ always() }}
-        uses: didiladi/comment-on-pr@main
+        uses: didiladi/comment-on-pr-action@main
         with:
           pr-id: ${{ github.event.client_payload.pr_number }}
           comment-prefix: ${{ github.event.client_payload.comment_prefix }}
