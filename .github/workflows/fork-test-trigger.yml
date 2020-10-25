@@ -2,7 +2,7 @@ name: Trigger Tests for Forks
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/5 * * * *'
 
 jobs:
   pr_updater:
